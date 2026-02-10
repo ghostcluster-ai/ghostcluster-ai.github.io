@@ -1,9 +1,10 @@
+<!-- Ghostcluster: Ephemeral Kubernetes clusters for AI experiments, built on vCluster -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Ephemeral Kubernetes clusters for AI experiments. One cluster per PR, experiment, or notebook with automatic GPU quotas and isolation.">
+  <meta name="description" content="Ephemeral Kubernetes clusters for AI experiments. One isolated cluster per PR, experiment, or notebook — built on vCluster. Open-core infrastructure for platform teams.">
   <title>Ghostcluster - Ephemeral Kubernetes for AI</title>
   <style>
     * {
@@ -18,32 +19,40 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-      background-color: #f5f5f5;
-      color: #333;
+      background-color: #ffffff;
+      color: #1f2937;
       line-height: 1.6;
     }
 
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Header & Navigation */
     header {
-      background-color: #fff;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background-color: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
       position: sticky;
       top: 0;
       z-index: 100;
     }
 
     nav {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 1.5rem 0;
     }
 
     .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #333;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1f2937;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     nav ul {
@@ -53,8 +62,8 @@
     }
 
     nav a {
-      color: #333;
       text-decoration: none;
+      color: #6b7280;
       font-size: 0.95rem;
       transition: color 0.3s ease;
     }
@@ -63,48 +72,25 @@
       color: #4f46e5;
     }
 
-    @media (max-width: 768px) {
-      nav ul {
-        display: none;
-      }
-    }
-
-    section {
-      padding: 4rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
+    /* Hero Section */
     .hero {
+      padding: 6rem 0;
       text-align: center;
-      padding: 5rem 2rem;
-      background: linear-gradient(135deg, #f5f5f5 0%, #fff 100%);
     }
 
     .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-size: 3rem;
+      font-weight: 700;
       margin-bottom: 1rem;
-      color: #333;
+      color: #1f2937;
+      line-height: 1.2;
     }
 
-    .logo-emoji {
-      font-size: 4rem;
-      margin-bottom: 1rem;
-      display: block;
-    }
-
-    .tagline {
-      font-size: 1.3rem;
-      color: #555;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-
-    .subtitle {
-      font-size: 1rem;
-      color: #666;
+    .hero p {
+      font-size: 1.25rem;
+      color: #6b7280;
       margin-bottom: 2rem;
-      max-width: 600px;
+      max-width: 700px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -117,250 +103,268 @@
     }
 
     .btn {
-      display: inline-block;
-      padding: 0.875rem 2rem;
-      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
       text-decoration: none;
-      font-weight: 600;
-      font-size: 1rem;
+      font-weight: 500;
       transition: all 0.3s ease;
       border: none;
       cursor: pointer;
-      text-align: center;
+      font-size: 1rem;
     }
 
     .btn-primary {
       background-color: #4f46e5;
-      color: white;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
     }
 
     .btn-primary:hover {
       background-color: #4338ca;
-      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.25);
       transform: translateY(-2px);
     }
 
     .btn-secondary {
       background-color: transparent;
       color: #4f46e5;
-      border: 2px solid #4f46e5;
+      border: 1px solid #4f46e5;
     }
 
     .btn-secondary:hover {
-      background-color: #4f46e5;
-      color: white;
-      transform: translateY(-2px);
+      background-color: #f3f0ff;
     }
 
-    .problem {
-      background-color: #fff;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    /* Problem Section */
+    .section {
+      padding: 4rem 0;
+      border-top: 1px solid #e5e7eb;
     }
 
-    .problem h2,
-    .solution h2,
-    .features h2,
-    .opencore h2,
-    .example h2 {
+    .section h2 {
       font-size: 2rem;
-      margin-bottom: 1.5rem;
-      color: #333;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: #1f2937;
     }
 
-    .problem p,
-    .solution p,
-    .opencore p {
-      font-size: 1.05rem;
-      color: #555;
-      line-height: 1.8;
-      max-width: 800px;
-      margin: 0 auto 1rem;
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
     }
 
-    .issue-list {
-      list-style: none;
-      margin-top: 1.5rem;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
+    .problem-item {
+      padding: 1.5rem;
+      background-color: #f9fafb;
+      border-radius: 0.5rem;
+      border-left: 3px solid #4f46e5;
     }
 
-    .issue-list li {
-      padding: 0.75rem 0 0.75rem 2rem;
-      position: relative;
-      color: #555;
+    .problem-item h3 {
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
     }
 
-    .issue-list li:before {
-      content: "⚠️";
-      position: absolute;
-      left: 0;
+    .problem-item p {
+      color: #6b7280;
+      font-size: 0.95rem;
     }
 
-    .solution {
-      background-color: #fff;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    /* Solution Section */
+    .solution-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
     }
 
-    .solution p {
+    .solution-text h3 {
+      font-size: 1.5rem;
+      color: #1f2937;
       margin-bottom: 1rem;
     }
 
-    .features {
-      background-color: rgba(79, 70, 229, 0.05);
+    .solution-text p {
+      color: #6b7280;
+      margin-bottom: 1rem;
     }
 
+    .architecture {
+      background-color: #f3f0ff;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: #4f46e5;
+      line-height: 1.8;
+      border: 1px solid #e9d5ff;
+    }
+
+    /* CLI Example Section */
+    .cli-example {
+      background-color: #1f2937;
+      padding: 3rem 2rem;
+      border-radius: 0.5rem;
+      margin: 2rem 0;
+    }
+
+    .cli-example code {
+      background-color: #111827;
+      padding: 1.5rem;
+      border-radius: 0.375rem;
+      display: block;
+      color: #10b981;
+      font-family: 'Courier New', monospace;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+
+    .cli-example p {
+      color: #e5e7eb;
+      font-size: 0.95rem;
+    }
+
+    /* Features Section */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
-      margin-top: 2rem;
     }
 
     .feature-card {
-      background-color: #fff;
       padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-      text-align: center;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(79, 70, 229, 0.15);
-    }
-
-    .feature-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
+      background-color: #f9fafb;
+      border-radius: 0.5rem;
+      border: 1px solid #e5e7eb;
     }
 
     .feature-card h3 {
-      font-size: 1.2rem;
-      color: #333;
-      margin-bottom: 0.5rem;
+      color: #1f2937;
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
     }
 
     .feature-card p {
+      color: #6b7280;
       font-size: 0.95rem;
-      color: #666;
-      margin: 0;
     }
 
-    .opencore {
-      background-color: #fff;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-
-    .opencore-content {
+    /* Open-Core Section */
+    .open-core-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 2rem;
-      align-items: center;
-      margin-top: 2rem;
     }
 
-    .opencore-col h3 {
-      font-size: 1.3rem;
-      color: #333;
+    .open-core-item h3 {
+      color: #1f2937;
       margin-bottom: 1rem;
+      font-size: 1.2rem;
     }
 
-    .opencore-col ul {
+    .open-core-item p {
+      color: #6b7280;
+      margin-bottom: 0.5rem;
+    }
+
+    .open-core-item ul {
       list-style: none;
-      color: #555;
+      padding-left: 0;
+      color: #6b7280;
     }
 
-    .opencore-col li {
-      padding: 0.5rem 0 0.5rem 1.5rem;
+    .open-core-item ul li {
+      padding-left: 1.5rem;
       position: relative;
+      margin-bottom: 0.5rem;
     }
 
-    .opencore-col li:before {
-      content: "✓";
+    .open-core-item ul li::before {
+      content: "→";
       position: absolute;
       left: 0;
       color: #4f46e5;
       font-weight: bold;
     }
 
-    @media (max-width: 768px) {
-      .opencore-content {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .example {
-      background-color: #f5f5f5;
-    }
-
-    .code-block {
-      background-color: #1f2937;
-      color: #e5e7eb;
-      padding: 1.5rem;
-      border-radius: 8px;
-      overflow-x: auto;
-      font-family: 'Monaco', 'Courier New', monospace;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin: 1.5rem 0;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .code-block code {
-      color: #10b981;
-    }
-
-    .example-description {
-      font-size: 1rem;
-      color: #666;
-      margin-bottom: 1rem;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    footer {
-      background-color: #1f2937;
-      color: #e5e7eb;
+    /* CTA Section */
+    .cta-section {
+      background-color: #f9fafb;
+      padding: 3rem 2rem;
+      border-radius: 0.5rem;
       text-align: center;
-      padding: 2rem;
-      margin-top: 2rem;
+      border: 1px solid #e5e7eb;
     }
 
-    footer p {
-      margin: 0.5rem 0;
+    .cta-section h2 {
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
     }
 
-    footer a {
-      color: #4f46e5;
+    .cta-section p {
+      color: #6b7280;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid #e5e7eb;
+      padding: 3rem 0;
+      color: #6b7280;
+      font-size: 0.9rem;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-links a {
+      color: #6b7280;
       text-decoration: none;
+      transition: color 0.3s ease;
     }
 
-    footer a:hover {
-      text-decoration: underline;
+    .footer-links a:hover {
+      color: #4f46e5;
     }
 
+    /* Responsive */
     @media (max-width: 768px) {
-      section {
-        padding: 2.5rem 1.5rem;
-      }
-
-      .hero {
-        padding: 3rem 1.5rem;
-      }
-
       .hero h1 {
         font-size: 2rem;
       }
 
-      .logo-emoji {
-        font-size: 3rem;
+      .hero p {
+        font-size: 1rem;
       }
 
-      .tagline {
-        font-size: 1.1rem;
+      nav ul {
+        gap: 1rem;
+      }
+
+      nav a {
+        font-size: 0.85rem;
+      }
+
+      .solution-content {
+        grid-template-columns: 1fr;
+      }
+
+      .open-core-grid {
+        grid-template-columns: 1fr;
       }
 
       .cta-group {
@@ -369,154 +373,212 @@
 
       .btn {
         width: 100%;
+        text-align: center;
       }
 
-      .features-grid {
-        grid-template-columns: 1fr;
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .section h2 {
+        font-size: 1.5rem;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Header -->
   <header>
-    <nav>
-      <div class="logo">👻 Ghostcluster</div>
-      <ul>
-        <li><a href="#problem">Problem</a></li>
-        <li><a href="#solution">Solution</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#opencore">Open-Core</a></li>
-      </ul>
-    </nav>
+    <div class="container">
+      <nav>
+        <div class="logo">
+          👻 Ghostcluster
+        </div>
+        <ul>
+          <li><a href="https://github.com/ghostcluster-ai" target="_blank">GitHub</a></li>
+          <li><a href="https://docs.ghostcluster.dev" target="_blank">Docs</a></li>
+          <li><a href="mailto:partners@ghostcluster.dev">Design Partners</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <!-- Hero Section -->
-    <section class="hero">
-      <span class="logo-emoji">👻</span>
-      <h1>Ghostcluster</h1>
-      <p class="tagline">Ephemeral Kubernetes clusters for AI experiments</p>
-      <p class="subtitle">One cluster per PR, experiment, or notebook. Spin up, run, tear down. No infrastructure complexity.</p>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Ephemeral Kubernetes clusters for AI experiments</h1>
+      <p>One isolated Kubernetes cluster per PR, experiment, or notebook — built on vCluster.</p>
       <div class="cta-group">
-        <a href="https://github.com/ghostcluster-ai/ghostcluster-dev" class="btn btn-primary">Get Started on GitHub</a>
-        <a href="#contact" class="btn btn-secondary">Become a Design Partner</a>
+        <a href="https://github.com/ghostcluster-ai/ghostcluster" class="btn btn-primary">Get Started on GitHub</a>
+        <a href="mailto:partners@ghostcluster.dev" class="btn btn-secondary">Become a Design Partner</a>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Problem Section -->
-    <section class="problem" id="problem">
-      <h2>The Problem with Shared Clusters</h2>
-      <p>Teams sharing a Kubernetes cluster for AI experiments face critical challenges:</p>
-      <ul class="issue-list">
-        <li><strong>CRD Collisions:</strong> Custom Resource Definitions conflict across experiments, breaking reproducibility</li>
-        <li><strong>GPU Starvation:</strong> Unquoted workloads starve other jobs, making it impossible to predict resource availability</li>
-        <li><strong>False Isolation:</strong> Namespaces provide logical boundaries, but not true isolation or independent control planes</li>
-        <li><strong>State Pollution:</strong> Previous experiments leave artifacts, affecting new runs</li>
-        <li><strong>Team Context Switching:</strong> Developers spend time managing cluster access instead of running experiments</li>
-      </ul>
-    </section>
+  <!-- Problem Section -->
+  <section class="section">
+    <div class="container">
+      <h2>The shared cluster problem</h2>
+      <div class="problem-grid">
+        <div class="problem-item">
+          <h3>CRD conflicts</h3>
+          <p>Multiple teams deploying incompatible custom resources crash the cluster or interfere with each other.</p>
+        </div>
+        <div class="problem-item">
+          <h3>GPU starvation</h3>
+          <p>Long-running jobs and experiments compete for GPUs. Priority queuing isn't enough for isolated experiments.</p>
+        </div>
+        <div class="problem-item">
+          <h3>Weak isolation</h3>
+          <p>Namespaces don't prevent node access, CRD collisions, or etcd bloat. Workloads aren't truly isolated.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Solution Section -->
-    <section class="solution" id="solution">
-      <h2>The Solution: Ephemeral, Isolated Clusters</h2>
-      <p>Ghostcluster creates a dedicated Kubernetes cluster for each experiment, PR, or notebook using <strong>vCluster</strong>—lightweight virtual clusters that share the host kernel but maintain complete isolation.</p>
-      <p><strong>Each cluster is ephemeral:</strong> It lives as long as your experiment and automatically tears down with no manual cleanup. No CRD conflicts, no GPU starvation, no state pollution. Just pure, isolated compute for every experiment.</p>
-      <p>Ghostcluster handles the complexity. You focus on your models.</p>
-    </section>
+  <!-- Solution Section -->
+  <section class="section">
+    <div class="container">
+      <h2>How Ghostcluster works</h2>
+      <div class="solution-content">
+        <div class="solution-text">
+          <h3>Lightweight isolation at scale</h3>
+          <p>Ghostcluster creates one ephemeral vCluster per workload. Each cluster is a complete, isolated Kubernetes environment with its own API server, controller manager, and scheduler.</p>
+          <p>All clusters share the underlying physical nodes and GPU resources. When the TTL expires, the cluster self-destructs—no manual cleanup needed.</p>
+          <p>No CRD conflicts. No GPU starvation. No namespace workarounds.</p>
+        </div>
+        <div class="architecture">
+<pre>Your PR / Experiment
+        ↓
+    ghostctl up
+        ↓
+┌─────────────────────┐
+│  vCluster Instance  │
+│ (isolated control) │
+│  ├─ API server      │
+│  ├─ scheduler       │
+│  └─ etcd (local)    │
+└─────────────────────┘
+        ↓
+Shared GPU + Node Pool
+        ↓
+Auto-destroy on TTL</pre>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
-      <h2>Key Features</h2>
+  <!-- CLI Example Section -->
+  <section class="section">
+    <div class="container">
+      <h2>CLI-first workflow</h2>
+      <div class="cli-example">
+        <code>$ ghostctl up --gpu 1 --ttl 24h
+✓ Cluster spawned: cluster-pr-421
+✓ GPU quota applied: 1x NVIDIA A100
+✓ Kubeconfig saved: ~/.kube/configs/cluster-pr-421
+✓ Self-destruct in 24 hours
+
+$ kubectl get nodes
+NAME                    STATUS   ROLES
+vcluster-agent-primary  Ready    agent</code>
+        <p>One command. One isolated cluster. Automatic cleanup. Use standard kubectl—no new tools to learn.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section">
+    <div class="container">
+      <h2>Key capabilities</h2>
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">⏱️</div>
-          <h3>Auto-Cleanup with TTL</h3>
-          <p>Clusters automatically expire and tear down after a configurable TTL. No orphaned resources, no surprise bills.</p>
+          <h3>vCluster-based isolation</h3>
+          <p>Full Kubernetes isolation without the overhead of separate etcd clusters or complex scheduling.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🎯</div>
-          <h3>GPU Quotas & Scheduling</h3>
-          <p>Reserve and guarantee GPU access for each experiment. No job starvation, predictable resource allocation.</p>
+          <h3>TTL-based auto-cleanup</h3>
+          <p>Set a lifetime when you create the cluster. No dangling resources, no manual teardown.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🔒</div>
-          <h3>Isolated Network & Storage</h3>
-          <p>Each cluster has its own network policies and persistent volumes. Complete data isolation by default.</p>
+          <h3>GPU quotas & passthrough</h3>
+          <p>Request specific GPU counts. Isolation rules prevent other clusters from using your GPUs.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">📋</div>
-          <h3>Templates & Presets</h3>
-          <p>Define cluster templates for different workload types (LLM training, inference, data processing) for consistency.</p>
+          <h3>Network & storage isolation</h3>
+          <p>Each vCluster gets its own virtual network. Storage is scoped within the cluster instance.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🚀</div>
-          <h3>Git & PR Integration</h3>
-          <p>Spin up a cluster per PR with one comment. Tight integration with your CI/CD and Git workflows.</p>
+          <h3>CLI-first workflow</h3>
+          <p>Fast iteration. No UI, no cloud console. Build on what works: ghostctl and kubectl.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Example CLI Section -->
-    <section class="example" id="example">
-      <h2>Quick Start: One Command</h2>
-      <p class="example-description">Get a fully isolated Kubernetes cluster with GPU in seconds:</p>
-      <div class="code-block"><code>$ ghostctl up --gpu 1 --ttl 4h
-
-Cluster Name: exp-gpt-finetune-2025
-Control Plane: 192.168.1.42:6443
-Kubeconfig: ~/.kube/ghostcluster-exp-gpt-finetune.yaml
-GPU Reserved: 1x NVIDIA A100
-Network: 10.20.0.0/16
-TTL: 4 hours (expires 2026-02-10 10:15 PM)
-
-✓ Cluster ready in 8 seconds
-✓ kubectl configured</code></div>
-      <p style="text-align: center; color: #666;">Then deploy your workloads. Cluster auto-cleans when TTL expires.</p>
-    </section>
-
-    <!-- Open-Core Section -->
-    <section class="opencore" id="opencore">
-      <h2>Open-Core & SaaS Model</h2>
-      <p><strong>Ghostcluster Core (Open-Source):</strong> Full ephemeral cluster management, vCluster integration, CLI, and basic scheduling. Run on your own infrastructure.</p>
-      <p><strong>Ghostcluster SaaS + Pro Features (Coming Soon):</strong> Managed infrastructure, GPU pooling across accounts, advanced scheduling, team collaboration, audit logs, and priority support. Focus on models, not infrastructure.</p>
-      <div class="opencore-content">
-        <div class="opencore-col">
-          <h3>Open-Source</h3>
+  <!-- Open-Core Section -->
+  <section class="section">
+    <div class="container">
+      <h2>Open-core model</h2>
+      <div class="open-core-grid">
+        <div class="open-core-item">
+          <h3>Ghostcluster OSS</h3>
+          <p>Free. Self-hosted. Everything you need to run ephemeral Kubernetes.</p>
           <ul>
-            <li>Full cluster orchestration</li>
-            <li>GPU quota management</li>
-            <li>Git integration</li>
-            <li>Template system</li>
-            <li>Community support</li>
+            <li>ghostctl CLI</li>
+            <li>vCluster controller</li>
+            <li>Basic auto-cleanup</li>
+            <li>GPU passthrough</li>
           </ul>
         </div>
-        <div class="opencore-col">
-          <h3>SaaS (Beta)</h3>
+        <div class="open-core-item">
+          <h3>Ghostcluster Cloud</h3>
+          <p>Managed service. For teams that want PR automation, cost tracking, and compliance.</p>
           <ul>
-            <li>Fully managed clusters</li>
-            <li>GPU resource pooling</li>
-            <li>Multi-team support</li>
-            <li>Advanced monitoring</li>
-            <li>Priority support</li>
+            <li>Git integration (auto-spawn on PR)</li>
+            <li>Cost attribution per team</li>
+            <li>RBAC & org management</li>
+            <li>Audit logs</li>
+            <li>Web dashboard (optional)</li>
           </ul>
         </div>
       </div>
-    </section>
+      <p style="margin-top: 2rem; color: #6b7280;">Ghostcluster Cloud is a managed layer on top of the OSS project. Choose OSS for full control. Choose Cloud for hands-off automation.</p>
+    </div>
+  </section>
 
-    <!-- Call-to-Action Section -->
-    <section class="hero" id="contact" style="background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%); color: white;">
-      <h2 style="color: white; margin-bottom: 1rem;">Ready to Transform Your AI Workflow?</h2>
-      <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 2rem;">Join as a design partner, try the beta, or contribute to the open-source project.</p>
-      <div class="cta-group">
-        <a href="mailto:partners@ghostcluster.ai" class="btn btn-secondary" style="color: white; border-color: white;">Become a Design Partner</a>
-        <a href="https://github.com/ghostcluster-ai" class="btn" style="background-color: white; color: #4f46e5;">View on GitHub</a>
+  <!-- CTA Section -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-section">
+        <h2>Ready to isolate your workloads?</h2>
+        <p>Try the open-source project, contribute to the roadmap, or reach out as a design partner.</p>
+        <div class="cta-group">
+          <a href="https://github.com/ghostcluster-ai/ghostcluster" class="btn btn-primary">View on GitHub</a>
+          <a href="mailto:partners@ghostcluster.dev" class="btn btn-secondary">Contact us</a>
+        </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
+  <!-- Footer -->
   <footer>
-    <p>&copy; 2026 Ghostcluster. Open-core & engineered for AI teams.</p>
-    <p><a href="https://github.com/ghostcluster-ai">GitHub</a> · <a href="mailto:hello@ghostcluster.ai">Contact</a></p>
+    <div class="container">
+      <div class="footer-content">
+        <div>&copy; 2026 Ghostcluster. Built for infrastructure teams.</div>
+        <div class="footer-links">
+          <a href="https://github.com/ghostcluster-ai/ghostcluster" target="_blank">GitHub</a>
+          <a href="https://github.com/ghostcluster-ai/ghostcluster/blob/main/LICENSE" target="_blank">License</a>
+          <a href="mailto:security@ghostcluster.dev">Security</a>
+        </div>
+      </div>
+    </div>
   </footer>
 </body>
 </html>
