@@ -401,9 +401,9 @@
           👻 Ghostcluster
         </div>
         <ul>
-          <li><a href="https://github.com/ghostcluster-ai" target="_blank">GitHub</a></li>
-          <li><a href="https://docs.ghostcluster.dev" target="_blank">Docs</a></li>
-          <li><a href="mailto:partners@ghostcluster.dev">Design Partners</a></li>
+          <li><a href="https://github.com/ghostcluster-ai/ghostctl" target="_blank">GitHub</a></li>
+          <li><a href="https://github.com/ghostcluster-ai/ghostctl#documentation" target="_blank">Docs</a></li>
+          <li><a href="https://github.com/ghostcluster-ai/ghostctl/discussions" target="_blank">Design Partners</a></li>
         </ul>
       </nav>
     </div>
@@ -415,8 +415,8 @@
       <h1>Ephemeral Kubernetes clusters for AI experiments</h1>
       <p>One isolated Kubernetes cluster per PR, experiment, or notebook — built on vCluster.</p>
       <div class="cta-group">
-        <a href="https://github.com/ghostcluster-ai/ghostcluster" class="btn btn-primary">Get Started on GitHub</a>
-        <a href="mailto:partners@ghostcluster.dev" class="btn btn-secondary">Become a Design Partner</a>
+        <a href="https://github.com/ghostcluster-ai/ghostctl" class="btn btn-primary">Get Started on GitHub</a>
+        <a href="https://github.com/ghostcluster-ai/ghostctl/discussions" class="btn btn-secondary">Join Our Community</a>
       </div>
     </div>
   </section>
@@ -474,21 +474,76 @@ Auto-destroy on TTL</pre>
     </div>
   </section>
 
+  <!-- Cluster Per PR Section -->
+  <section class="section">
+    <div class="container">
+      <h2>Cluster per PR—your new workflow</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+        <div>
+          <p style="color: #6b7280; margin-bottom: 1rem;">Every PR gets its own isolated Kubernetes cluster. No more branch conflicts. No more shared state pollution. Engineers get instant feedback on real clusters.</p>
+          <ul style="list-style: none; color: #6b7280; padding: 0;">
+            <li style="margin-bottom: 0.75rem;"><strong style="color: #1f2937;">Review in isolation:</strong> Test CRDs, operators, and GPU workloads without affecting others</li>
+            <li style="margin-bottom: 0.75rem;"><strong style="color: #1f2937;">Fast feedback loops:</strong> Cluster spins up in seconds, not hours</li>
+            <li style="margin-bottom: 0.75rem;"><strong style="color: #1f2937;">Cost control:</strong> Clusters auto-expire—no orphaned resources</li>
+            <li><strong style="color: #1f2937;">Zero manual cleanup:</strong> TTL handles teardown automatically</li>
+          </ul>
+        </div>
+        <div style="background-color: #f9fafb; padding: 1.5rem; border-radius: 0.5rem; border: 1px solid #e5e7eb;">
+          <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 500; letter-spacing: 0.05em;">Before: Shared Cluster</p>
+          <p style="color: #6b7280; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e5e7eb;">❌ CRD conflicts<br>❌ GPU competition<br>❌ Manual cleanup<br>❌ Slow, unreliable tests</p>
+          <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 500; letter-spacing: 0.05em;">After: Cluster per PR</p>
+          <p style="color: #1f2937;">✓ Full isolation<br>✓ Guaranteed resources<br>✓ Auto-cleanup<br>✓ Fast, reliable tests</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CLI Example Section -->
   <section class="section">
     <div class="container">
       <h2>CLI-first workflow</h2>
       <div class="cli-example">
-        <code>$ ghostctl up --gpu 1 --ttl 24h
-✓ Cluster spawned: cluster-pr-421
+        <code>$ ghostctl up --gpu 1 --ttl 24h</code>
+      </div>
+      <div style="background-color: #111827; padding: 1.5rem; border-radius: 0.375rem; margin-bottom: 1rem; color: #10b981; font-family: 'Courier New', monospace; font-size: 0.9rem; overflow-x: auto;">
+        <code>✓ Cluster spawned: cluster-pr-421
 ✓ GPU quota applied: 1x NVIDIA A100
 ✓ Kubeconfig saved: ~/.kube/configs/cluster-pr-421
-✓ Self-destruct in 24 hours
-
-$ kubectl get nodes
+✓ Self-destruct in 24 hours</code>
+      </div>
+      <p style="color: #e5e7eb; margin-bottom: 1rem;">Then use standard kubectl with your new cluster:</p>
+      <div style="background-color: #111827; padding: 1.5rem; border-radius: 0.375rem; color: #10b981; font-family: 'Courier New', monospace; font-size: 0.9rem; overflow-x: auto;">
+        <code>$ kubectl get nodes
 NAME                    STATUS   ROLES
 vcluster-agent-primary  Ready    agent</code>
-        <p>One command. One isolated cluster. Automatic cleanup. Use standard kubectl—no new tools to learn.</p>
+      </div>
+      <p style="color: #e5e7eb; margin-top: 1rem;">One command. One isolated cluster. Automatic cleanup. Use standard kubectl—no new tools to learn.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why vCluster Section -->
+  <section class="section">
+    <div class="container">
+      <h2>Why vCluster?</h2>
+      <p style="color: #6b7280; margin-bottom: 2rem; max-width: 800px;">vCluster is battle-tested in production at scale. It provides real Kubernetes isolation at a fraction of the cost and complexity of full cluster-per-workload deployments.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>Lightweight</h3>
+          <p>vCluster runs inside a single pod. Spawn dozens or hundreds without infra overhead. Share GPUs efficiently across clusters.</p>
+        </div>
+        <div class="feature-card">
+          <h3>True isolation</h3>
+          <p>Separate API server, etcd, and scheduler per vCluster. CRDs, RBAC, and resources are fully scoped. Safe for untrusted workloads.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Standard Kubernetes</h3>
+          <p>Full Kubernetes API compatibility. No custom tools, no vendor lock-in. Deploy helm charts, operators, and workloads as-is.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Production-ready</h3>
+          <p>Used by enterprises and cloud platforms. Proven at scale with SLAs and security hardening.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -525,31 +580,39 @@ vcluster-agent-primary  Ready    agent</code>
   <!-- Open-Core Section -->
   <section class="section">
     <div class="container">
-      <h2>Open-core model</h2>
+      <h2>Open-source first. Cloud-native future.</h2>
+      <p style="color: #6b7280; margin-bottom: 2rem; max-width: 800px;">Ghostcluster starts as a fully open-source project. Full control, no vendor lock-in, MIT licensed. When you're ready for managed automation, we'll build a SaaS layer on top—not a replacement.</p>
       <div class="open-core-grid">
         <div class="open-core-item">
-          <h3>Ghostcluster OSS</h3>
-          <p>Free. Self-hosted. Everything you need to run ephemeral Kubernetes.</p>
+          <h3>🚀 Ghostcluster OSS (Now)</h3>
+          <p style="margin-bottom: 1rem;">Self-hosted, fully featured, free forever.</p>
           <ul>
-            <li>ghostctl CLI</li>
-            <li>vCluster controller</li>
-            <li>Basic auto-cleanup</li>
-            <li>GPU passthrough</li>
+            <li>ghostctl CLI for instant clusters</li>
+            <li>vCluster-based isolation engine</li>
+            <li>TTL-based auto-cleanup</li>
+            <li>GPU quota management</li>
+            <li>Cluster per PR workflows</li>
+            <li>Standard kubectl integration</li>
+            <li>MIT License • Community-driven</li>
           </ul>
         </div>
         <div class="open-core-item">
-          <h3>Ghostcluster Cloud</h3>
-          <p>Managed service. For teams that want PR automation, cost tracking, and compliance.</p>
+          <h3>☁️ Ghostcluster Cloud (Soon)</h3>
+          <p style="margin-bottom: 1rem;">Built on OSS. Adds managed automation.</p>
           <ul>
-            <li>Git integration (auto-spawn on PR)</li>
-            <li>Cost attribution per team</li>
-            <li>RBAC & org management</li>
-            <li>Audit logs</li>
-            <li>Web dashboard (optional)</li>
+            <li>GitHub PR integration</li>
+            <li>Automated cluster lifecycle</li>
+            <li>Cost attribution & billing</li>
+            <li>Organization RBAC</li>
+            <li>Audit logs & compliance</li>
+            <li>Team dashboards</li>
+            <li>Priority support</li>
           </ul>
         </div>
       </div>
-      <p style="margin-top: 2rem; color: #6b7280;">Ghostcluster Cloud is a managed layer on top of the OSS project. Choose OSS for full control. Choose Cloud for hands-off automation.</p>
+      <div style="background-color: #f3f0ff; padding: 2rem; border-radius: 0.5rem; margin-top: 2rem; border: 1px solid #e9d5ff;\">
+        <p style=\"color: #1f2937; font-size: 1rem; margin: 0;\"><strong>Enterprise & scale:</strong> Run OSS on your infrastructure with full control. Opt into Cloud for teams that want hands-off PR automation and compliance. No migration needed—both use the same ghostctl CLI.</p>
+      </div>
     </div>
   </section>
 
@@ -557,12 +620,13 @@ vcluster-agent-primary  Ready    agent</code>
   <section class="section">
     <div class="container">
       <div class="cta-section">
-        <h2>Ready to isolate your workloads?</h2>
-        <p>Try the open-source project, contribute to the roadmap, or reach out as a design partner.</p>
+        <h2>Start running cluster per PR today</h2>
+        <p>Ghostcluster is open-source and production-ready. Deploy on your infrastructure, integrate with your CI/CD, and get instant feedback on every PR.</p>
         <div class="cta-group">
-          <a href="https://github.com/ghostcluster-ai/ghostcluster" class="btn btn-primary">View on GitHub</a>
-          <a href="mailto:partners@ghostcluster.dev" class="btn btn-secondary">Contact us</a>
+          <a href="https://github.com/ghostcluster-ai/ghostctl" class="btn btn-primary">Get Started on GitHub</a>
+          <a href="https://github.com/ghostcluster-ai/ghostctl/discussions" class="btn btn-secondary">Ask Questions</a>
         </div>
+        <p style="margin-top: 1.5rem; color: #6b7280; font-size: 0.9rem;">MIT Licensed • Community-driven • Self-hosted on your infrastructure</p>
       </div>
     </div>
   </section>
@@ -573,9 +637,9 @@ vcluster-agent-primary  Ready    agent</code>
       <div class="footer-content">
         <div>&copy; 2026 Ghostcluster. Built for infrastructure teams.</div>
         <div class="footer-links">
-          <a href="https://github.com/ghostcluster-ai/ghostcluster" target="_blank">GitHub</a>
-          <a href="https://github.com/ghostcluster-ai/ghostcluster/blob/main/LICENSE" target="_blank">License</a>
-          <a href="mailto:security@ghostcluster.dev">Security</a>
+          <a href="https://github.com/ghostcluster-ai/ghostctl" target="_blank">GitHub</a>
+          <a href="https://github.com/ghostcluster-ai/ghostctl/blob/main/LICENSE" target="_blank">License (MIT)</a>
+          <a href="https://github.com/ghostcluster-ai/ghostctl/security/policy" target="_blank">Security</a>
         </div>
       </div>
     </div>
